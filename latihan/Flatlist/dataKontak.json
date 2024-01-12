@@ -1,0 +1,72 @@
+ [
+  {
+    "id": 1,
+    "img": "https://images7.alphacoders.com/100/1002239.jpg",
+    "username": "@joyo_24",
+    "nama": "Joyo Kilat Moko",
+    "waktu": "1:50 pm"
+  },
+  {
+    "id": 2,
+    "img": "https://www.pixel4k.com/wp-content/uploads/2018/11/4k-hatsune-miku_1541974314.jpg",
+    "username": "@abel_ubul",
+    "nama": "Abel Ubul",
+    "waktu": "7:50 am"
+  },
+  {
+    "id": 3,
+    "img": "https://th.bing.com/th/id/OIP.IRGHMBpo9tEFVxW2ZBhRbgHaEK?pid=ImgDet&rs=1",
+    "username": "@rumah_kacang",
+    "nama": "Rumah Kacang",
+    "waktu": "8:50 am"
+  },
+  {
+    "id": 4,
+    "img": "https://anihonetwallpaper.com/image/2016/03/29551-Giarlish_Number-PC.jpg",
+    "username": "@ojol",
+    "nama": "Ojol",
+    "waktu": "5:50 pm"
+  },
+  {
+    "id": 7,
+    "img": "https://anihonetwallpaper.com/image/2016/03/29551-Giarlish_Number-PC.jpg",
+    "username": "@amakama_yuzaki",
+    "nama": "Amakama Yuzaki",
+    "waktu": "5:50 pm"
+  },
+  {
+    "id": 6,
+    "img": "https://th.bing.com/th/id/OIP.pesa1GZqzjrP5QiTkZp93QAAAA?pid=ImgDet&w=400&h=400&rs=1",
+    "username": "@sarah_mediterania",
+    "nama": "Sarah Mediterania",
+    "waktu": "10:00 am"
+  },
+  {
+    "id": 8,
+    "img": "https://m.media-amazon.com/images/I/81YqH88N8vL._AC_UF1000,1000_QL80_.jpg",
+    "username": "@john_doe",
+    "nama": "John Doe",
+    "waktu": "3:30 pm"
+  },
+  {
+    "id": 9,
+    "img": "https://m.media-amazon.com/images/I/81YqH88N8vL._AC_UF1000,1000_QL80_.jpg",
+    "username": "@jane_smith",
+    "nama": "Jane Smith",
+    "waktu": "9:15 am"
+  },
+  {
+    "id": 10,
+    "img": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ae619df9-73af-48ab-a67b-bdb258e047dc/dg61nva-2f1c6b3e-84eb-4287-9357-fb915213a6aa.png/v1/fit/w_800,h_1200,q_70,strp/ayaka___c_by_pekotu_dg61nva-414w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTIwMCIsInBhdGgiOiJcL2ZcL2FlNjE5ZGY5LTczYWYtNDhhYi1hNjdiLWJkYjI1OGUwNDdkY1wvZGc2MW52YS0yZjFjNmIzZS04NGViLTQyODctOTM1Ny1mYjkxNTIxM2E2YWEucG5nIiwid2lkdGgiOiI8PTgwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.gRUSeRxDvgfxsDZm7aCX0EDFnDrZ9Rsc_SBRaJfHgGs",
+    "username": "@alex_johnson",
+    "nama": "Alex Johnson",
+    "waktu": "2:20 pm"
+  },
+  {
+    "id": 11,
+    "img": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ae619df9-73af-48ab-a67b-bdb258e047dc/dg61nva-2f1c6b3e-84eb-4287-9357-fb915213a6aa.png/v1/fit/w_800,h_1200,q_70,strp/ayaka___c_by_pekotu_dg61nva-414w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTIwMCIsInBhdGgiOiJcL2ZcL2FlNjE5ZGY5LTczYWYtNDhhYi1hNjdiLWJkYjI1OGUwNDdkY1wvZGc2MW52YS0yZjFjNmIzZS04NGViLTQyODctOTM1Ny1mYjkxNTIxM2E2YWEucG5nIiwid2lkdGgiOiI8PTgwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.gRUSeRxDvgfxsDZm7aCX0EDFnDrZ9Rsc_SBRaJfHgGs",
+    "username": "@jackson_white",
+    "nama": "Jackson White",
+    "waktu": "4:45 pm"
+  }
+]

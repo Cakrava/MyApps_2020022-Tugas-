@@ -1,0 +1,38 @@
+[
+    {
+        "id" : 1,
+        "img" : "avatar1.png",
+        "nohp" : "0823887847",
+        "nama" : "Pramudito Metra"
+    },
+    {
+        "id" : 2,
+        "img" : "avatar2.png",
+        "nohp" : "0823887847",
+        "nama" : "ITO"
+    },
+    {
+        "id" : 3,
+        "img" : "avatar3.png",
+        "nohp" : "0823887847",
+        "nama" : "PRAM"
+    },
+    {
+        "id" : 4,
+        "img" : "avatar4.png",
+        "nohp" : "0823887847",
+        "nama" : "ACIK"
+    },
+    {
+        "id" : 5,
+        "img" : "avatar5.png",
+        "nohp" : "0823887847",
+        "nama" : "IMET"
+    },
+    {
+        "id" : 6,
+        "img" : "avatar6.png",
+        "nohp" : "0823887847",
+        "nama" : "TOTO"
+    }
+]
