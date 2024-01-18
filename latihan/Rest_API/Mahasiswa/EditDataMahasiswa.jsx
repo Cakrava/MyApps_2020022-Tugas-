@@ -18,6 +18,7 @@ import {apiUrl} from '../config';
 import {useNavigation} from '@react-navigation/native';
 import {apiMahasiswa} from '../API';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function FormEdit({route}) {
   const {nim_2020022} = route.params;
   const [mahasiswa, setMahasiswa] = useState(null);
@@ -46,8 +47,13 @@ export default function FormEdit({route}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(`${nim_2020022}`);
-        const response = await fetch(`${apiMahasiswa}/${nim_2020022}`);
+        let token = await AsyncStorage.getItem('userToken');
+        console.log(`${token}`);
+        const response = await fetch(`${apiMahasiswa}/${nim_2020022}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const json = await response.json();
         setNamaLengkap(json.nama_lengkap_2020022);
         setJenisKelamin(json.jenis_kelamin_2020022);
@@ -88,11 +94,14 @@ export default function FormEdit({route}) {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
+      console.log(`ini token : ${token}`);
       const response = await fetch(`${apiMahasiswa}/${nim_2020022}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

@@ -18,6 +18,7 @@ import avatarLaki from '../Src/laki.jpg';
 import avatarPerempuan from '../Src/perempuan.jpg';
 import {useNavigation} from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const DetailMahasiswa = ({route}) => {
   const {nim_2020022, foto_2020022} = route.params;
   const navigation = useNavigation();
@@ -111,11 +112,13 @@ const DetailMahasiswa = ({route}) => {
     });
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       let response = await fetch(`${apiMahasiswa}/uploadImage/${nim_2020022}`, {
         method: 'POST',
         body: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -154,11 +157,21 @@ const DetailMahasiswa = ({route}) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${apiMahasiswa}/${nim_2020022}`);
+      let token = await AsyncStorage.getItem('userToken');
+      const response = await fetch(`${apiMahasiswa}/${nim_2020022}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const json = await response.json();
       setMahasiswa(json);
       setPic(
         `${apiImage}${json.foto_2020022}?timestamp=${new Date().getTime()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
     } catch (error) {
       setError('Tidak dapat memuat data');

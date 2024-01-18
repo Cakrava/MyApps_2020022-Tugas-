@@ -1,20 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Import screens
+//Import Screens
+
 import LoginScreen from './Login';
 import Index from './Index';
-import NavMahasiswa from './Mahasiswa/NavMahasiswa';
+import NavMahasiswa from './Mahasiswa/MhNav';
+import NavDosen from './Dosen/DsnNav';
+import NavMatakuliah from './Matakuliah/MtkNav';
 
-const Stack = createNativeStackNavigator();
+const stack = createNativeStackNavigator();
 
 const App = () => {
   const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
-    // Periksa token saat aplikasi dimuat
+    //Periksa Token saat aplikasi dimuat
     const checkTokenUser = async () => {
       let userToken;
       try {
@@ -26,38 +29,43 @@ const App = () => {
     };
     checkTokenUser();
   }, []);
-
   const handleSetUserToken = token => {
     setUserToken(token);
   };
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <stack.Navigator>
         {userToken == null ? (
-          <Stack.Screen name="Login" options={{headerShown: false}}>
+          <stack.Screen name="Login" options={{headerShown: false}}>
             {props => (
               <LoginScreen {...props} setUserToken={handleSetUserToken} />
             )}
-          </Stack.Screen>
+          </stack.Screen>
         ) : (
           <>
-            <Stack.Screen
-              name="Index"
-              component={Index}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
+            <stack.Screen name="Index" options={{headerShown: false}}>
+              {props => <Index {...props} setUserToken={setUserToken} />}
+            </stack.Screen>
+            <stack.Screen
               name="Mahasiswa"
               component={NavMahasiswa}
               options={{headerShown: false}}
             />
-            {/* Silahkan kalian tambahkan juga untuk Nav Dosen dan Matakuliah Dibawah nya */}
+            <stack.Screen
+              name="Dosen"
+              component={NavDosen}
+              options={{headerShown: false}}
+            />
+            <stack.Screen
+              name="Matakuliah"
+              component={NavMatakuliah}
+              options={{headerShown: false}}
+            />
           </>
         )}
-      </Stack.Navigator>
+      </stack.Navigator>
     </NavigationContainer>
   );
 };
-
 export default App;

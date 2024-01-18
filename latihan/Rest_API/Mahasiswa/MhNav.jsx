@@ -5,11 +5,12 @@ import EditDataMahasiswa from './EditDataMahasiswa';
 import DetailMahasiswa from './DetailMahasiswa';
 import TambahDataMahasiswa from './TambahDataMahasiswa';
 import UploadImageMahasiswa from './UploadImageMahasiswa';
+import Login from '../Login';
 const Stack = createNativeStackNavigator();
 
 export default function MhNav() {
   return (
-    <NavigationContainer independent>
+    <>
       <Stack.Navigator initialRouteName="DataMahasiswa">
         <Stack.Screen
           name="DataMahasiswa"
@@ -22,7 +23,8 @@ export default function MhNav() {
         <Stack.Screen name="FormUpload" component={UploadImageMahasiswa} />
         <Stack.Screen name="Tambah" component={TambahDataMahasiswa} />
         <Stack.Screen name="EditMahasiswa" component={EditDataMahasiswa} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
-    </NavigationContainer>
+    </>
   );
 }

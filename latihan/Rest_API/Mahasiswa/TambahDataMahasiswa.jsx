@@ -18,6 +18,7 @@ import {apiMahasiswa} from '../API';
 import {set} from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TambahDataMahasiswa = () => {
   const [nim_2020022, setNim] = useState('');
   const [namaLengkap, setNamaLengkap] = useState('');
@@ -45,11 +46,13 @@ const TambahDataMahasiswa = () => {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(`${apiMahasiswa}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

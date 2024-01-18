@@ -14,7 +14,7 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import avatarLaki from '../Src/laki.jpg';
 import avatarPerempuan from '../Src/perempuan.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -44,6 +44,7 @@ export default function DataMahasiswa() {
   const [dataMahasiswa, setDataMahasiswa] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [lastPage, setLastPage] = useState(0);
 
   const [iconRotation] = useState(new Animated.Value(0));
   const [icon] = useState(new Animated.Value(50));
@@ -174,14 +175,19 @@ export default function DataMahasiswa() {
       },
     ],
   };
-
   const fetchDataMahasiswa = async (pageNumber = 1, searchQuery = search) => {
     setLoading(true);
     setError('');
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(
         `${apiMahasiswa}/?page=${pageNumber}&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -201,10 +207,14 @@ export default function DataMahasiswa() {
       if (pageNumber === 1) setRefreshing(false);
     }
   };
-
   const fetchDataFromApi = async () => {
     try {
-      const response = await fetch(`${apiJmlMahasiswa}`); // Ganti dengan URL API yang sesuai
+      let token = await AsyncStorage.getItem('userToken');
+      const response = await fetch(`${apiJmlMahasiswa}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); // Ganti dengan URL API yang sesuai
       const data = await response.json();
 
       if (data.success) {
@@ -218,13 +228,22 @@ export default function DataMahasiswa() {
     }
   };
 
+  let token;
   useEffect(() => {
-    fetchDataMahasiswa();
-    fetchDataFromApi();
+    const initializeData = async () => {
+      let token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        navigation.navigate('Login');
+      } else {
+        await fetchDataMahasiswa();
+        await fetchDataFromApi();
+      }
+    };
+
+    initializeData();
     const unsubscribe = navigation.addListener('focus', () => {
-      // Dipanggil setiap kali layar mendapat fokus
-      if (route.params?.dataAdded) {
-        fetchDataMahasiswa();
+      if (route.params?.dataAdded && !dataDeleted) {
+        initializeData();
         setDataDeleted(false);
       }
     });
@@ -232,6 +251,14 @@ export default function DataMahasiswa() {
     return unsubscribe;
   }, [navigation, route.params?.dataAdded]);
 
+  const checkToken = async () => {
+    let token = await AsyncStorage.getItem('userToken');
+    if (!token) {
+      navigation.navigate('Login'); //Ganti login dengan nama route halaman login anda
+    } else {
+      fetchDataMahasiswa(); //lanjutkan dengan memuat data jika token ada
+    }
+  };
   const handleSearch = () => {
     setIsSearching(false);
     fetchDataMahasiswa(1, '');
@@ -276,11 +303,15 @@ export default function DataMahasiswa() {
               text: 'Ya',
               onPress: async () => {
                 try {
+                  let token = await AsyncStorage.getItem('userToken');
                   // Lakukan penghapusan data mahasiswa dengan permintaan DELETE ke API
                   const response = await fetch(
                     `${apiMahasiswa}/${nim_2020022}`,
                     {
                       method: 'DELETE',
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
                     },
                   );
 

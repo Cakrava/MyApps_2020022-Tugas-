@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Avatar} from 'react-native-elements';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import avatarLaki from '../Src/laki.jpg';
 import avatarPerempuan from '../Src/perempuan.jpg';
 import {apiImage, apiDosen} from '../API';

@@ -1,17 +1,18 @@
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
   Text,
   Button,
   StyleSheet,
-  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {apiUrl} from './config';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {apiImage} from './API';
 
 export default function Login({navigation, setUserToken}) {
   const [email, setEmail] = useState('');
@@ -22,16 +23,16 @@ export default function Login({navigation, setUserToken}) {
 
   const saveToken = async token => {
     try {
-      await AsyncStorage.setItem('userToken', token);
+      await AsyncStorage.setItem('userToken, token');
       setUserToken(token);
     } catch (e) {
-      console.log('Token Gagal Di-Simpan');
+      //Menyimpan token gagal
+      console.log('Token gagal di-simpan');
     }
   };
-
   const ActionLogin = async () => {
     setLoading(true);
-    fetch(`${apiUrl}login`, {
+    fetch(`${apiImage}/api/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -48,15 +49,18 @@ export default function Login({navigation, setUserToken}) {
         await AsyncStorage.setItem('userToken', json.data.token);
         setUserToken(json.data.token);
         navigation.navigate('Index');
-      } else if (response.status == 403) {
-        setErrorEmail(json.data.email ? json.data.email[0] : '');
-        setErrorPassword(json.data.password ? json.data.password[0] : '');
-      } else if (response.status == 401) {
-        Alert.alert('Gagal', `${json.message}`);
-        setEmail('');
-        setPassword('');
-        setErrorEmail('');
-        setErrorPassword('');
+      } else {
+        if (response.status == 403) {
+          setErrorEmail(json.data.email ? json.data.email[0] : '');
+          setErrorPassword(json.data.password ? json.data.password[0] : '');
+        }
+        if (response.status == 401) {
+          Alert.alert('Gagal', `${json.message}`);
+          setEmail('');
+          setPassword('');
+          setErrorEmail('');
+          setErrorPassword('');
+        }
       }
       setLoading(false);
     });
@@ -68,11 +72,14 @@ export default function Login({navigation, setUserToken}) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       style={styles.container}>
       <View style={styles.form}>
-        <Image source={require('../api/img/logo-rn.png')} style={styles.img} />
+        <Image
+          source={require('../Src/02c2b3c7-1791-445b-be4e-39d394f463e0.webp')}
+          style={styles.img}
+        />
         <Text style={styles.label}>E-Mail</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter Your E-Mail"
+          placeholder="Enter your email"
           value={email}
           onChangeText={setEmail}
         />
@@ -80,7 +87,7 @@ export default function Login({navigation, setUserToken}) {
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter Your Password"
+          placeholder="Enter your password"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -106,10 +113,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   form: {
+    backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
     shadowColor: 'black',
-    backgroundColor: 'white',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
