@@ -30,7 +30,7 @@ export default function Index(props) {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+
         tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen
@@ -38,6 +38,7 @@ export default function Index(props) {
         component={NavigasiMahasiswa}
         options={{
           headerShown: false,
+          tabBarActiveTintColor: '#39A7FF',
         }}
       />
       <Tab.Screen
@@ -45,6 +46,7 @@ export default function Index(props) {
         component={NavigasiDosen}
         options={{
           headerShown: false,
+          tabBarActiveTintColor: 'tomato',
         }}
       />
       <Tab.Screen
@@ -52,6 +54,7 @@ export default function Index(props) {
         component={NavigasiMatakuliah}
         options={{
           headerShown: false,
+          tabBarActiveTintColor: '#03C988',
         }}
       />
 

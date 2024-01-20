@@ -11,6 +11,8 @@ import {
 import {apiMatakuliah} from '../API';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const DetailMatakuliah = ({route}) => {
   const {kode_2020022} = route.params; // Mengambil NIM yang diteruskan sebagai parameter
   const navigation = useNavigation();
@@ -22,7 +24,12 @@ const DetailMatakuliah = ({route}) => {
     const unsubscribe = navigation.addListener('focus', () => {
       const fetchData = async () => {
         try {
-          const response = await fetch(`${apiMatakuliah}/${kode_2020022}`);
+          let token = await AsyncStorage.getItem('userToken');
+          const response = await fetch(`${apiMatakuliah}/${kode_2020022}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           const json = await response.json();
           setMatakuliah(json);
         } catch (error) {

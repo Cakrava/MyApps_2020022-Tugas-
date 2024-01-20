@@ -14,6 +14,10 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import avatarLaki from '../Src/laki.jpg';
+import {Avatar} from 'react-native-elements';
+import avatarPerempuan from '../Src/perempuan.jpg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {apiJmlDosen, apiDosen} from '../API';
 import {Swipeable} from 'react-native-gesture-handler';
@@ -39,6 +43,7 @@ export default function DataDosen() {
   const [dataDosen, setDataDosen] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [dataDeleted, setDataDeleted] = useState('');
 
   const [iconRotation] = useState(new Animated.Value(0));
   const [icon] = useState(new Animated.Value(50));
@@ -175,8 +180,14 @@ export default function DataDosen() {
     setError('');
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(
         `${apiDosen}/?page=${pageNumber}&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -197,7 +208,12 @@ export default function DataDosen() {
 
   const fetchDataFromApi = async () => {
     try {
-      const response = await fetch(`${apiJmlDosen}`); // Ganti dengan URL API yang sesuai
+      let token = await AsyncStorage.getItem('userToken');
+      const response = await fetch(`${apiJmlDosen}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); // Ganti dengan URL API yang sesuai
       const data = await response.json();
 
       if (data.success) {
@@ -211,13 +227,23 @@ export default function DataDosen() {
     }
   };
 
+  let token;
   useEffect(() => {
-    fetchDataDosen();
-    fetchDataFromApi();
+    const initializeData = async () => {
+      let token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        navigation.navigate('Login');
+      } else {
+        await fetchDataDosen();
+        await fetchDataFromApi();
+      }
+    };
+
+    initializeData();
     const unsubscribe = navigation.addListener('focus', () => {
-      // Dipanggil setiap kali layar mendapat fokus
-      if (route.params?.dataAdded) {
-        fetchDataDosen();
+      if (route.params?.dataAdded && !dataDeleted) {
+        initializeData();
+        setDataDeleted(false);
       }
     });
 
@@ -267,9 +293,13 @@ export default function DataDosen() {
               text: 'Ya',
               onPress: async () => {
                 try {
+                  let token = await AsyncStorage.getItem('userToken');
                   // Lakukan penghapusan data dosen dengan permintaan DELETE ke API
                   const response = await fetch(`${apiDosen}/${nik_2020022}`, {
                     method: 'DELETE',
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
                   });
 
                   if (response.status === 200) {
@@ -381,14 +411,25 @@ export default function DataDosen() {
                     alignItems: 'center',
                     width: 300,
                   }}>
-                  <Image
-                    source={
-                      item.jenis_kelamin_2020022 === 'L'
-                        ? require('../Src/frieren.jpg')
-                        : require('../Src/1105631.jpg')
-                    }
-                    style={styles.foto}
-                  />
+                  <View
+                    style={[
+                      styles.foto,
+                      {justifyContent: 'center', alignItems: 'center'},
+                    ]}>
+                    <Avatar
+                      size={25}
+                      rounded
+                      source={
+                        item.foto_2020022
+                          ? {uri: `${apiImage}${item.foto_2020022}`}
+                          : item.jenis_kelamin_2020022 === 'L'
+                          ? avatarLaki
+                          : item.jenis_kelamin_2020022 === 'P'
+                          ? avatarPerempuan
+                          : avatarLaki
+                      }
+                    />
+                  </View>
                   <View>
                     <Text style={styles.title}>
                       {item.nama_lengkap_2020022}

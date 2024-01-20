@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   NativeModules,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Avatar} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -112,11 +113,14 @@ const DetailDosen = ({route}) => {
     });
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       let response = await fetch(`${apiDosen}/uploadImage/${nik_2020022}`, {
         method: 'POST',
         body: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
+
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -155,11 +159,21 @@ const DetailDosen = ({route}) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${apiDosen}/${nik_2020022}`);
+      let token = await AsyncStorage.getItem('userToken');
+      const response = await fetch(`${apiDosen}/${nik_2020022}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const json = await response.json();
       setDosen(json);
       setPic(
         `${apiImage}${json.foto_2020022}?timestamp=${new Date().getTime()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
     } catch (error) {
       setError('Tidak dapat memuat data');
@@ -221,7 +235,7 @@ const DetailDosen = ({route}) => {
             </View>
           </View>
           <View>
-            <TouchableOpacity onPress={goToPageFormUpload}>
+            <TouchableOpacity onPress={togalGantiFoto}>
               <View style={styles.foto}>
                 <Avatar
                   size="xlarge"

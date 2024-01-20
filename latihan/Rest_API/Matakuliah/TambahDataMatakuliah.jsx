@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {apiMatakuliah} from '../API';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TambahDataMatakuliah = () => {
   const [kode_2020022, setKode] = useState('');
   const [nama, setNama] = useState('');
@@ -40,11 +41,13 @@ const TambahDataMatakuliah = () => {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(`${apiMatakuliah}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

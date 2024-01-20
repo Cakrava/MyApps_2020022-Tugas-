@@ -233,7 +233,7 @@ const DetailMahasiswa = ({route}) => {
             </View>
           </View>
           <View>
-            <TouchableOpacity onPress={goToPageFormUpload}>
+            <TouchableOpacity onPress={togalGantiFoto}>
               <View style={styles.foto}>
                 <Avatar
                   size="xlarge"

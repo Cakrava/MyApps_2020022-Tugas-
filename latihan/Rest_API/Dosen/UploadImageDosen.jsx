@@ -9,6 +9,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import {Avatar} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import avatarLaki from '../Src/laki.jpg';

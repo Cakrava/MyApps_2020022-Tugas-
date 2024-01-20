@@ -18,6 +18,7 @@ import {apiUrl} from '../config';
 import {useNavigation} from '@react-navigation/native';
 import {apiMatakuliah} from '../API';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function FormEdit({route}) {
   const {kode_2020022} = route.params;
   const [matakuliah, setMatakuliah] = useState(null);
@@ -34,8 +35,13 @@ export default function FormEdit({route}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let token = await AsyncStorage.getItem('userToken');
         console.log(`${kode_2020022}`);
-        const response = await fetch(`${apiMatakuliah}/${kode_2020022}`);
+        const response = await fetch(`${apiMatakuliah}/${kode_2020022}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const json = await response.json();
         setNamaMatakuliah(json.nama_2020022);
         setSks(json.sks_2020022);
@@ -68,12 +74,14 @@ export default function FormEdit({route}) {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       console.log(kode_2020022);
       const response = await fetch(`${apiMatakuliah}/${kode_2020022}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

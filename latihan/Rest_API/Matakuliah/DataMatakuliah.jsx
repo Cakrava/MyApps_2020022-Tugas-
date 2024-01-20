@@ -25,6 +25,7 @@ import {apiMatakuliah} from '../../Rest_API/API';
 import {apiJmlSKS} from '../API';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function DataMatakuliah() {
   const [total2, setTotal2] = useState(0);
   const [total1, setTotal1] = useState(0);
@@ -39,6 +40,7 @@ export default function DataMatakuliah() {
   const [search, setSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
+  const [dataDeleted, setDataDeleted] = useState('');
   const [titleCari, setTitleCari] = useState('');
   let prevOpenedRow;
   const [row, setRow] = useState({});
@@ -157,8 +159,14 @@ export default function DataMatakuliah() {
     setError('');
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(
         `${apiMatakuliah}/?page=${pageNumber}&search=${searchQuery}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -178,40 +186,52 @@ export default function DataMatakuliah() {
       if (pageNumber === 1) setRefreshing(false);
     }
   };
+
+  let token;
   useEffect(() => {
-    fetchDataMatakuliah();
-    // fetchDataFromApi();
+    const initializeData = async () => {
+      let token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        navigation.navigate('Login');
+      } else {
+        await fetchDataMatakuliah();
+        await fetchDataFromApi();
+      }
+    };
+
+    initializeData();
     const unsubscribe = navigation.addListener('focus', () => {
-      // Dipanggil setiap kali layar mendapat fokus
-      if (route.params?.dataAdded) {
-        fetchDataMatakuliah();
+      if (route.params?.dataAdded && !dataDeleted) {
+        initializeData();
+        setDataDeleted(false);
       }
     });
 
     return unsubscribe;
   }, [navigation, route.params?.dataAdded]);
 
-  useEffect(() => {
-    const fetchDataFromApi = async () => {
-      try {
-        const response = await fetch(`${apiJmlSKS}`); // Ganti dengan URL API yang sesuai
-        const data = await response.json();
+  const fetchDataFromApi = async () => {
+    try {
+      let token = await AsyncStorage.getItem('userToken');
+      const response = await fetch(`${apiJmlSKS}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); // Ganti dengan URL API yang sesuai
+      const data = await response.json();
 
-        if (data.success) {
-          setTotal1(data.data.total1);
-          setTotal2(data.data.total2);
-          setTotal3(data.data.total3);
-          setTotal4(data.data.total4);
-        } else {
-          console.error('Gagal mengambil data gender dari API');
-        }
-      } catch (error) {
-        console.error('Terjadi kesalahan:', error);
+      if (data.success) {
+        setTotal1(data.data.total1);
+        setTotal2(data.data.total2);
+        setTotal3(data.data.total3);
+        setTotal4(data.data.total4);
+      } else {
+        console.error('Gagal mengambil data gender dari API');
       }
-    };
-
-    fetchDataFromApi();
-  }, []);
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  };
 
   const handleSearch = () => {
     setIsSearching(false);
@@ -251,11 +271,15 @@ export default function DataMatakuliah() {
               text: 'Ya',
               onPress: async () => {
                 try {
+                  let token = await AsyncStorage.getItem('userToken');
                   // Lakukan penghapusan data mahasiswa dengan permintaan DELETE ke API
                   const response = await fetch(
                     `${apiMatakuliah}/${kode_2020022}`,
                     {
                       method: 'DELETE',
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
                     },
                   );
 

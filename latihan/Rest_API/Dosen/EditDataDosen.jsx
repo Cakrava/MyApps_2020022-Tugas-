@@ -10,6 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -49,8 +50,14 @@ export default function FormEdit({route}) {
   useEffect(() => {
     const fetchDataMatakuliah = async () => {
       try {
+        let token = await AsyncStorage.getItem('userToken');
         const responseMatakuliah = await fetch(
           'http://192.168.137.1:8000/api/matakuliah2020022',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
         const responseDataMatakuliah = await responseMatakuliah.json();
 
@@ -76,8 +83,13 @@ export default function FormEdit({route}) {
 
     const fetchDataDosen = async () => {
       try {
+        let token = await AsyncStorage.getItem('userToken');
         console.log(`${nik_2020022}`);
-        const responseDosen = await fetch(`${apiDosen}/${nik_2020022}`);
+        const responseDosen = await fetch(`${apiDosen}/${nik_2020022}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const jsonDosen = await responseDosen.json();
         setNamaLengkap(jsonDosen.nama_lengkap_2020022);
         setMatakuliah(jsonDosen.matakuliah_2020022);
@@ -121,11 +133,13 @@ export default function FormEdit({route}) {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       const response = await fetch(`${apiDosen}/${nik_2020022}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

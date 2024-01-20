@@ -9,12 +9,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {apiDosen} from '../API';
+import {apiDosen, apiMatakuliah} from '../API';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const TambahDataDosen = () => {
@@ -35,10 +36,13 @@ const TambahDataDosen = () => {
   useEffect(() => {
     // Fungsi untuk mendapatkan data dari API
     const fetchData = async () => {
+      let token = await AsyncStorage.getItem('userToken');
       try {
-        const response = await fetch(
-          'http://192.168.137.1:8000/api/matakuliah2020022',
-        );
+        const response = await fetch(`${apiMatakuliah}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const responseData = await response.json();
 
         // Memastikan bahwa properti "data" ada dan merupakan array
@@ -79,11 +83,15 @@ const TambahDataDosen = () => {
     };
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
+      console.log(token);
       const response = await fetch(`${apiDosen}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
