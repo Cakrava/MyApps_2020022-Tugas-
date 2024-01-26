@@ -1,8 +1,11 @@
 // apiConfig.js
-export const apiMahasiswa = 'http://192.168.137.1:8000/api/mahasiswa2020022';
-export const apiDosen = 'http://192.168.137.1:8000/api/dosen2020022';
-export const apiMatakuliah = 'http://192.168.137.1:8000/api/matakuliah2020022';
-export const apiJmlMahasiswa = 'http://192.168.137.1:8000/api/jumlahMahasiswa';
-export const apiJmlDosen = 'http://192.168.137.1:8000/api/jumlahDosen';
-export const apiJmlSKS = 'http://192.168.137.1:8000/api/jumlahSKS';
-export const apiImage = 'http://192.168.137.1:8000';
+export const apiMahasiswa =
+  'https://2020022.mytugas.my.id/api/mahasiswa2020022';
+export const apiDosen = 'https://2020022.mytugas.my.id/api/dosen2020022';
+export const apiMatakuliah =
+  'https://2020022.mytugas.my.id/api/matakuliah2020022';
+export const apiJmlMahasiswa =
+  'https://2020022.mytugas.my.id/api/jumlahMahasiswa';
+export const apiJmlDosen = 'https://2020022.mytugas.my.id/api/jumlahDosen';
+export const apiJmlSKS = 'https://2020022.mytugas.my.id/api/jumlahSKS';
+export const apiImage = 'https://2020022.mytugas.my.id';

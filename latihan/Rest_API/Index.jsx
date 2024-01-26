@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import NavigasiMahasiswa from './Mahasiswa/MhNav';
+import NavJadwal from './Jadwal/NavJadwal';
 
 import NavigasiDosen from './Dosen/DsnNav';
 import NavigasiMatakuliah from './Matakuliah/MtkNav';
@@ -27,6 +28,8 @@ export default function Index(props) {
             iconName = focused ? 'book' : 'book-outline';
           } else if (route.name === 'UserAccount') {
             iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Jadwal') {
+            iconName = focused ? 'time' : 'time-outline';
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -52,6 +55,14 @@ export default function Index(props) {
       <Tab.Screen
         name="Matakuliah"
         component={NavigasiMatakuliah}
+        options={{
+          headerShown: false,
+          tabBarActiveTintColor: '#03C988',
+        }}
+      />
+      <Tab.Screen
+        name="Jadwal"
+        component={NavJadwal}
         options={{
           headerShown: false,
           tabBarActiveTintColor: '#03C988',

@@ -109,11 +109,13 @@ export default function FormUploadDosen({route, navigation}) {
     });
 
     try {
+      let token = await AsyncStorage.getItem('userToken');
       let response = await fetch(`${apiDosen}/uploadImage/${nik_2020022}`, {
         method: 'POST',
         body: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
         },
       });
 

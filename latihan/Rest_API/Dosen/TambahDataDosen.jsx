@@ -69,6 +69,7 @@ const TambahDataDosen = () => {
   }, []); // useEffect akan dijalankan hanya saat komponen pertama kali dimount
 
   const submitForm = async () => {
+    let token = await AsyncStorage.getItem('userToken');
     setIsSaving(true);
     setValidationErrors({});
     const formData = {
@@ -83,7 +84,6 @@ const TambahDataDosen = () => {
     };
 
     try {
-      let token = await AsyncStorage.getItem('userToken');
       console.log(token);
       const response = await fetch(`${apiDosen}`, {
         method: 'POST',
